@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>hello.jsp</title>
 </head>
 <body>
-dev_spring4 server start!!
+/di/hello.sp 요청에 대한 응답 페이지 입니다.
 </body>
 </html>
