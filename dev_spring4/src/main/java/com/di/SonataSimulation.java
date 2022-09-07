@@ -1,4 +1,4 @@
-package com.spring4.mvc;
+package com.di;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -51,10 +51,14 @@ public class SonataSimulation {
 //		ss.methodA();
 		// 스프링에서는 xml문서에 선언된 클래스 정보를 얻어와서 자바코드에 쓸 수 있도록 제공하는 클래스가 있음
 		ApplicationContext context = 
-				new ClassPathXmlApplicationContext("com\\spring4\\mvc\\sonataBean.xml");
+				new ClassPathXmlApplicationContext("com\\di\\sonataBean.xml");
 		// scope를 생략한 경우임
 		//<bean id="myCar" class="com.spring4.mvc.Sonata" />
 		Sonata myCar = (Sonata)context.getBean("myCar");
+		System.out.println("첫 myCar:    "+myCar);
+		myCar = null; //역할이 없다
+		myCar = (Sonata)context.getBean("myCar");
+		System.out.println("null이후 myCar: "+myCar);
 		Sonata myCar2 = (Sonata)context.getBean("myCar");
 		Sonata herCar = (Sonata)context.getBean("herCar");// 인스턴스화 대신
 		System.out.println(myCar == myCar2); // t:싱글톤 , f:prototype
@@ -64,7 +68,7 @@ public class SonataSimulation {
 		System.out.println(himCar ==himCar2); //f -> prototype이므로
 		
 		BeanFactory factory = 
-				new XmlBeanFactory(new ClassPathResource("com\\spring4\\mvc\\sonataBean.xml"));
+				new XmlBeanFactory(new ClassPathResource("com\\di\\sonataBean.xml"));
 		Sonata meCar = (Sonata)factory.getBean("myCar");
 		System.out.println(myCar == meCar); //f
 		

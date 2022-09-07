@@ -1,4 +1,4 @@
-package com.spring4.mvc;
+package com.di;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;

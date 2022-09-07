@@ -76,6 +76,6 @@ Context를 시작시킬 때 모든 SingleTon Bean을
 애플리케이션 동작시 Bean이 생성되기를 기다릴 필요가 없게 됨
 
  -->
-<jsp:useBean id="himCar" scope="request" class="com.spring4.mvc.Sonata" />
+<jsp:useBean id="himCar" scope="request" class="com.di.Sonata" />
 </body>
 </html>

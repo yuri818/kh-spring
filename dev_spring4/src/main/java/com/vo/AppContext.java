@@ -20,9 +20,15 @@ import org.springframework.context.annotation.Configuration;
  */
 
 
-
+// 스프링 컨테이너가 관리를 하는 클래스임
+// 객체 주입을 위한 사전 조치, 추가해야 할 코드이다.
 @Configuration
 public class AppContext { 
+	// 메소드 이름 앞에 @Bean 어노테이션을 붙이면 메소드 이름이 빈네임이 되는 것이다.
+	// 인스턴스변수.getBean(빈네임);
+	// 빈생성 객체를 인스턴스화 하면서 @Bean이 정의된 클래스를 생성자의 파라미터로 
+	// 추가하는 것 만으로도 @Bean이 붙은 메소드를 호출할 수 있다.
+	// @Configuration과 @Bean은 직접적인 의존관계는 아님
 	@Bean
 	public DeptVO getDeptVO() { // 메소드를 통해 객체 주입 받도록 @Bean을 사용한다.
 		DeptVO dVO = new DeptVO();
