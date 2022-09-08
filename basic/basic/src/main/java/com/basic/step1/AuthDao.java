@@ -21,12 +21,14 @@ public class AuthDao {
 	public MemberVO login() {
 //		logger.info("login 호출 성공");
 		MemberVO memVO = null;
-		Map<String,Object> pMap = new HashMap<>();
-		pMap.put("mem_id","tomato");
-		pMap.put("mem_pw","123");
+		Map<String, Object> pMap = new HashMap<>();
+		pMap.put("mem_id", "tomato");
+		pMap.put("mem_pw", "123");
 		// selectOne(One은 Object이다.-오직 한건만)은 조회건수가 반드시 한건이어야 한다
 		// Too Many...
-		memVO = sqlSessionTemplate.selectOne("login",pMap); // selectOne은 리턴타입이 Object임
+		// 혹시 아래 부분에 컴파일 에러이면 ibatis관련 모듈 의존 관계에 있어서
+		// mybatis-3.5.10.jar도 빌드 패스에 추가할 것. mybatis-spring-1.3.3.jar과 의존관계
+		memVO = sqlSessionTemplate.selectOne("login", pMap); // selectOne은 리턴타입이 Object임
 		if(memVO!=null) {
 //			logger.info(memVO.getMem_name());
 		}

@@ -21,6 +21,24 @@
 			</list>
 		</property>
 	</bean>
+	<bean name="/di/insaMap.sp" class="com.di.MapController">
+		<property name="insaMsg">
+			<map>
+				<entry>
+					<key><value>one</value></key>
+					<value>안녕!</value>
+				</entry>
+				<entry>
+					<key><value>two</value></key>
+					<value>좋은아침입니다</value>
+				</entry>
+				<entry>
+					<key><value>three</value></key>
+					<value>굿밤</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
 	
 	<bean id="url-mapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
