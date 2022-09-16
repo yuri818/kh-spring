@@ -8,7 +8,7 @@
 			<value>oracle.jdbc.driver.OracleDriver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:oracle:thin:@localhost:1521:orcl</value>
+			<value>jdbc:oracle:thin:@localhost:1521:orcl11</value>
 		</property>
 		<property name="username">
 			<value>scott</value>
@@ -17,6 +17,12 @@
 			<value>tiger</value>
 		</property>
 	</bean>
+	<!-- ====================== [[ Spring & TransactionManager 시작 ]] ====================== -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="data-source-target" />
+	</bean>
+	<!-- ====================== [[ Spring & TransactionManager  끝 ]] ====================== -->
+
 	<!-- ====================== [[ Spring & MyBatis 시작 ]] ====================== -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="WEB-INF/mybatis-config.xml" />
@@ -27,6 +33,12 @@
 	</bean>
 	<!-- ====================== [[ Spring & MyBatis  끝 ]] ====================== -->
 	<bean id="auth-dao" class="com.spring4.mvc.AuthDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	<bean id="dept-dao" class="com.spring4.tr.DeptDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	<bean id="emp-dao" class="com.spring4.tr.EmpDao">
 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
 	</bean>
 </beans>

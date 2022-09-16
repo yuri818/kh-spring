@@ -45,6 +45,7 @@
 		<property name="mappings">
 			<props>
 				<prop key="/login.sp">auth-controller</prop>
+				<prop key="/doEmp.sp">emp-controller</prop>
 			</props>
 		</property>
 	</bean>
@@ -60,6 +61,21 @@
 		<property name="mappings">
 			<props>
 				<prop key="/login.sp">login</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- emp작업 -->
+	<bean id="emp-controller" class="com.spring4.tr.EmpController">
+		<property name="methodNameResolver" ref="emp-resolver" />
+		<!-- property의 name은 setter객체주입법 코드의 이름이어야 한다 -->
+		<property name="empLogic" ref="emp-logic" />
+	</bean>
+	<bean id="emp-resolver"
+		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/doEmp.sp">doEmp</prop>
 			</props>
 		</property>
 	</bean>

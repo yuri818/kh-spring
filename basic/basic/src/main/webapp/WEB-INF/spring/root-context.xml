@@ -10,7 +10,7 @@
 			<value>net.sf.log4jdbc.sql.jdbcapi.DriverSpy</value>
 		</property>
 		<property name="jdbcUrl">
-			<value>jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl</value>
+			<value>jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl11</value>
 		</property>
 		<property name="username">
 			<value>scott</value>

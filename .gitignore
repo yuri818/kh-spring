@@ -1,1 +1,8 @@
-/.metadata/
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+Servers/
+*.class
+*.classpath
