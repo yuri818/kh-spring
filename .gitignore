@@ -5,4 +5,8 @@
 .metadata/
 Servers/
 *.class
+<<<<<<< HEAD
 *.classpath
+=======
+*.classpath
+>>>>>>> bb80bed7c2df1ea9e755bd7d5100c98ef0f3fa34
