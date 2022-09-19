@@ -3,6 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<settings>
+	<!-- null값이 들어올 때 널값에 대한 허용여부 처리 -->
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
 	<typeAliases>
@@ -12,5 +13,6 @@
 		<mapper resource="com/mybatis/mapper/member.xml" />
 		<mapper resource="com/mybatis/mapper/dept.xml" />
 		<mapper resource="com/mybatis/mapper/emp.xml" />
+		<mapper resource="com/mybatis/mapper/board.xml" />
 	</mappers>
 </configuration>
