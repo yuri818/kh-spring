@@ -8,7 +8,7 @@
 			<value>oracle.jdbc.driver.OracleDriver</value>
 		</property>
 		<property name="url">
-			<value>jdbc:oracle:thin:@localhost:1521:orcl11</value>
+			<value>jdbc:oracle:thin:@localhost:1521:orcl</value>
 		</property>
 		<property name="username">
 			<value>scott</value>
@@ -39,6 +39,9 @@
 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
 	</bean>
 	<bean id="emp-dao" class="com.spring4.tr.EmpDao">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	<bean id="board-dao" class="com.spring4.mvc.BoardDao">
 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
 	</bean>
 </beans>

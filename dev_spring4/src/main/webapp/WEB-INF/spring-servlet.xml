@@ -40,16 +40,40 @@
 		</property>
 	</bean>
 	
+	<!-- board 처리 위해 추가한 부분 시작-->
 	<bean id="url-mapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
 				<prop key="/login.sp">auth-controller</prop>
 				<prop key="/doEmp.sp">emp-controller</prop>
+				<prop key="/board/jsonBoardList.sp">board-controller</prop>
+				<prop key="/board/boardList.sp">board-controller</prop>
+				<prop key="/board/boardDetail.sp">board-controller</prop>
+				<prop key="/board/boardInsert.sp">board-controller</prop>
+				<prop key="/board/boardUpdate.sp">board-controller</prop>
+				<prop key="/board/boardDelete.sp">board-controller</prop>
 			</props>
 		</property>
 	</bean>
-	
+	<bean id="board-controller" class="com.spring4.mvc.BoardController">
+		<property name="methodNameResolver" ref="board-resolver" />
+		<property name="boardLogic" ref="board-logic" />
+	</bean>
+	<bean id="board-resolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/board/jsonBoardList.sp">jsonBoardList</prop>
+				<prop key="/board/boardList.sp">boardList</prop>
+				<prop key="/board/boardDetail.sp">boardDetail</prop>
+				<prop key="/board/boardInsert.sp">boardInsert</prop>
+				<prop key="/board/boardUpdate.sp">boardUpdate</prop>
+				<prop key="/board/boardDelete.sp">boardDelete</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- board 처리 위해 추가한 부분 끝-->
+
 	<!-- xml에서 bean태그에 클래스 선언함: AuthController auth-controller = null;(선언) -->
 	<bean id="auth-controller" class="com.spring4.mvc.AuthController">
 		<property name="methodNameResolver" ref="auth-resolver" />
