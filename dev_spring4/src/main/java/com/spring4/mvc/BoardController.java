@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
-import com.google.gson.Gson;
+import com.util.HashMapBinder;
 
 // 여기선 어노테이션 사용하지 않는다.
 // @RestController 쓰면 JSON포맷으로 처리해준다(xml도 가능) - 그치만 4버전에서는 쓸 수 없다
@@ -45,17 +44,24 @@ public class BoardController extends MultiActionController { // req,res를 사�
 //		model.addAttribute("boardList", boardList); // scope가 request임 // model은 4버전에서는 지원x
 		req.setAttribute("boardList", boardList); // 표준으로 하면 된다.
 		logger.info(boardList);
-		return "forward:list.jsp";
+		return "forward:boardList.jsp";
 	}
 	public String boardDetail(HttpServletRequest req, HttpServletResponse res) {
 		logger.info("boardDetail 호출 성공");
 		Map<String,Object> pMap = new HashMap<>();
-		boardLogic.boardDetail(pMap);
+		HashMapBinder hmb = new HashMapBinder(req);
+		hmb.bind(pMap);
+		List<Map<String,Object>> boardList = null;
+		boardList = boardLogic.boardDetail(pMap);
+		req.setAttribute("boardList", boardList);
 		return "forward:read.jsp";
 	}
 	public String boardInsert(HttpServletRequest req, HttpServletResponse res) {
 		logger.info("boardInsert 호출 성공");
 		Map<String,Object> pMap = new HashMap<>();
+		HashMapBinder hmb = new HashMapBinder(req);
+//		hmb.bind(pMap);
+		hmb.multiBind(pMap);
 		boardLogic.boardInsert(pMap);
 		// redirect-forward, forward->forward는 에러
 		return "redirect:boardList.sp";
@@ -63,12 +69,16 @@ public class BoardController extends MultiActionController { // req,res를 사�
 	public String boardUpdate(HttpServletRequest req, HttpServletResponse res) {
 		logger.info("boardUpdate 호출 성공");
 		Map<String,Object> pMap = new HashMap<>();
+		HashMapBinder hmb = new HashMapBinder(req);
+		hmb.bind(pMap);
 		boardLogic.boardUpdate(pMap);
 		return "redirect:boardList.sp";
 	}
 	public String boardDelete(HttpServletRequest req, HttpServletResponse res) {
 		logger.info("boardDelete 호출 성공");
 		Map<String,Object> pMap = new HashMap<>();
+		HashMapBinder hmb = new HashMapBinder(req);
+		hmb.bind(pMap);
 		boardLogic.boardDelete(pMap);
 		return "redirect:boardList.sp";
 	}
