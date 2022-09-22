@@ -29,6 +29,7 @@ public class BoardLogic {
 		logger.info("boardList 호출 성공");
 		List<Map<String,Object>> boardList = null;
 		boardList = boardDao.boardList(pMap);
+//		boardList = boardDao.proc_boardList(pMap); //프로시저 사용 - 불가하다. (조건검색의 한계) // 마이바티스만 조건문 사용이 가능함
 		return boardList;
 	}
 	// 하나의 메소드 안에서 DAO의 여러 메소드를 호출할 수 있음 - 트랜잭션 처리 공통된 관심사를 갖는 부분
@@ -61,6 +62,7 @@ public class BoardLogic {
 			pMap.put("b_step", 0);
 		}
 		result = boardDao.boardMInsert(pMap); // 새글쓰기와 댓글쓰기를 동시 처리
+//		result = boardDao.proc_boardinsert(pMap); // 프로시저로 처리하기
 		// 첨부파일이 있는 경우에만 board_sub_t 추가함
 		// 첨부파일이 있는 경우
 		if(pMap.get("bs_file")!=null && pMap.get("bs_file").toString().length()>1) {

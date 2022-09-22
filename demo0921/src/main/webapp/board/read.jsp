@@ -36,7 +36,7 @@
 // javascript만으로 처리
 // html+javascript 혼합 처리(권장-리액트)
 	function boardList(){
-		location.href="./boardList.sp4";
+		location.href="./boardList";
 	}
 	function dlgIns_save(){
 		$("#f_boardIns").submit();
@@ -73,7 +73,7 @@
 			// 경고창 띄우는 과정
 			$.messager.confirm('Confirm', '정말 삭제할거야?', function(r){
 				if(r){
-					location.href="./boardDelete.sp4?b_no="+<%=rb_no%>;
+					location.href="./boardDelete?b_no="+<%=rb_no%>;
 				}
 			});
 		} else {
@@ -123,7 +123,7 @@
 		<!-- 바이너리파일(문자열+숫자)을 전송할 때는 반드시 post방식 처리 -->
 <!-- base2, base8, base16, base64 텍스트파일(문자열치환- 파일의 크기가 커진다) -->
 		<!-- <form id="f_boardIns" method="post" enctype="multipart/form-data" action="./boardInsert.do"> -->
-		<form id="f_boardUpd" method="get" action="./boardUpdate.sp4">
+		<form id="f_boardUpd" method="get" action="./boardUpdate">
 		<!-- 태그안에 변수 선언 가능? -->
 			<input type="hidden" id="b_no" name="b_no" value="<%=rb_no%>">
 			<table>
@@ -156,8 +156,8 @@
 		style="width: 600px; height: 400px; padding: 10px">
 		<!-- 바이너리파일(문자열+숫자)을 전송할 때는 반드시 post방식 처리 -->
 <!-- base2, base8, base16, base64 텍스트파일(문자열치환- 파일의 크기가 커진다) -->
-		<!-- <form id="f_boardIns" method="post" enctype="multipart/form-data" action="./boardInsert.sp4"> -->
-		<form id="f_boardIns" method="get" action="./boardInsert.sp4">
+		<form id="f_boardIns" method="post" enctype="multipart/form-data" action="./boardInsert">
+		<!-- <form id="f_boardIns" method="get" action="./boardInsert"> -->
 			<input type="hidden" id="b_group" name="b_group" value="<%=rb_group%>">
 			<input type="hidden" id="b_pos" name="b_pos" value="<%=rb_pos%>">
 			<input type="hidden" id="b_step" name="b_step" value="<%=rb_step%>">

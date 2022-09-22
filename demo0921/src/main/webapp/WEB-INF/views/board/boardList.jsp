@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, com.util.PageBar, com.example.demo.vo.BoardMasterVO" %>    
+<%@ page import="java.util.*, com.util.PageBar" %>    
 <%
 // jsp에서 자바코드(스크립틀릿)와 html코드의 작성위치는 문제가 되지 않는다.
 // 왜냐하면 어차피 jsp는 서버에서 실행되고 그 결과가 text로 출력되는 것이므로
@@ -10,8 +10,8 @@
 		isOk = Boolean.parseBoolean(request.getParameter("isOk"));
 	}
 	// 유지 -> DB 경유 -> 서블릿
-	List<BoardMasterVO> boardList = 
-			(List<BoardMasterVO>)request.getAttribute("boardList");
+	List<Map<String,Object>> boardList = 
+			(List<Map<String,Object>>)request.getAttribute("boardList");
 	int size = 0;
 	if(boardList!=null){
 		size = boardList.size();
@@ -28,8 +28,8 @@
 <html>
 <head>
 <!-- <meta charset="UTF-8"> 이것때문에 한글깨짐.-->
-<title>스프링기반의 계층형 게시판 구현하기</title>
-<%@ include file="../common/easyui_common.jsp" %>
+<title>스프링기반의 계층형 게시판 구현하기[WEB-INF]</title>
+<%@ include file="/common/easyui_common.jsp" %>
 <script type="text/javascript">
 	let g_no=0;//그리드에서 선택이 바뀔때 마다 변경된 값이 저장됨.
 	let tb_value; // 사용자가 입력한 문자열 담기
@@ -178,10 +178,10 @@
 		//for(int i=0;i<size;i++){
 		for(int i=nowPage*numPerPage;i<(nowPage*numPerPage)+numPerPage;i++){
 			if(size == i) break;
-			BoardMasterVO bmVO = boardList.get(i);
+			Map<String,Object> rMap = boardList.get(i);
 %>	      
         	<tr>
-        		<td><%=bmVO.getB_no()%></td>
+        		<td><%=rMap.get("B_NO")%></td>
         		<td>
 <!-- 너 댓글이니? -->        
 <%
@@ -189,8 +189,8 @@
 	// 그러니까 메소드 선언 안됨
 	// path는 common/easyui_common.jsp에서 임포트 해옴
 	String imgPath = path+"..\\images\\";
-	if(bmVO.getB_pos() > 0) {
-		for(int j=0; j<bmVO.getB_pos();j++) {
+	if(Integer.parseInt(rMap.get("B_POS").toString()) > 0) {
+		for(int j=0; j<Integer.parseInt(rMap.get("B_POS").toString());j++) {
 			out.print("&nbsp;&nbsp;");
 		}////end of for
 %>
@@ -199,30 +199,30 @@
 	
 	} // 댓글이니까 댓글아이콘 추가해줘! /////end of if
 %>
-<a href="javascript:boardDetail('<%=bmVO.getB_no()%>')" style="text-decoration:none;color:#000000">        		
-        		<%=bmVO.getB_title()%>
+<a href="javascript:boardDetail('<%=rMap.get("B_NO")%>')" style="text-decoration:none;color:#000000">        		
+        		<%=rMap.get("B_TITLE")%>
 </a>        		
         		</td>
-        		<td><%=bmVO.getB_writer()%></td>
-        		<td><%=bmVO.getB_date()%></td>
+        		<td><%=rMap.get("B_WRITER")%></td>
+        		<td><%=rMap.get("B_DATE")%></td>
         		<td>
 <!-- 조건에 따라서 처리하도록해주기 파일이 없을경우/있을경우 -->
 <%
-	if(bmVO.getBs_file()!=null) { // null이 아닐경우 a태그 걸어주세요
+	if(rMap.get("BS_FILE")!=null) { // null이 아닐경우 a태그 걸어주세요
 %>
-        		<a href="javascript:fileDown('<%=bmVO.getBs_file() %>')">
-        		<%=bmVO.getBs_file()%>
+        		<a href="javascript:fileDown('<%=rMap.get("BS_FILE") %>')">
+        		<%=rMap.get("BS_FILE")%>
         		</a>
 <%
 	} /////end of if
 	else {
 %>        		
-        		<%=bmVO.getBs_file()%>
+        		<%=rMap.get("BS_FILE")%>
 <%
 	}//////end of else
 %>
         		</td>
-        		<td><%=bmVO.getB_hit()%></td>
+        		<td><%=rMap.get("B_HIT")%></td>
         	</tr>
 <%
 		}// end of for
