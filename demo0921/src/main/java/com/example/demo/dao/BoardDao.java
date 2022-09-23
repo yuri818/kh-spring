@@ -21,7 +21,7 @@ public class BoardDao {
 		int result = 0; //성공여부 판정
 		try {
 			sqlSessionTemplate.selectOne("proc_boardinsert", pMap);
-			if(pMap.get("proc_boardinsert의 result")!=null) {
+			if(pMap.get("result")!=null) {
 				result = Integer.parseInt(pMap.get("result").toString());
 			}
 			logger.info("result: "+result);
