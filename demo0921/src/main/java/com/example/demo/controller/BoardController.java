@@ -69,6 +69,9 @@ public class BoardController {
 	 * ModelAndView도 필요없음 - Model
 	 * 리턴타입: ModelAndView -> String으로 변경
 	 ***********************************************/
+	// 메소드의 파라미터로 객체 주입이 되고 있다 - 의존성 주입관계에 있다.
+	// 스프링에서 제공[임스턴스화를 대신해주고 그 시점도 관리해줌 - 라이프사이클 관리]하는 클래스이다.
+	// 이런걸 해주니까 개발자는 로직에만 집중할 수 있다 - 인스턴스화 안해도 된다, 자원반납도 안해도 안전함
 	@GetMapping("boardList")
 	public String boardList(Model model, @RequestParam Map<String,Object> pMap) {
 		logger.info("boardList 호출 성공: "+ pMap); //cb_search:b_title컬럼 , tb_search:title 가 key값으로 넘어 올 것이다.
