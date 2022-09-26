@@ -2,14 +2,16 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="com.example.demo.vo.MemberVO" %>
 <%
-	MemberVO mVO = (MemberVO)session.getAttribute("mVO");
+	/* MemberVO mVO = (MemberVO)session.getAttribute("mVO");
 	String s_id = null;
 	String s_name = null;
 	if(mVO != null){
 		s_id = mVO.getMem_id();
 		s_name = mVO.getMem_name();
-	}
-	out.print(s_id+", "+s_name);
+	} */
+	String smem_id = (String)session.getAttribute("smem_id");
+	String smem_name = (String)session.getAttribute("smem_name");
+	out.print(smem_id+", "+smem_name);
 %>
 <!DOCTYPE html>
 <html>
@@ -23,6 +25,8 @@ a {
 }
 </style>
 <script type="text/javascript">
+		let to_id; //받는 사람 아이디 - 사용자가 입력하는 것이 아니라 쪽지쓰기 로우에서 자동으로 담기
+		let to_name; // 받는 사람 이름
     	// 함수 선언은 head태그 안에서 한다
     	// easyui_common.jsp열어봐서 왜 head태그 안에서 처리하는지
     	function memberUpdate() {
@@ -36,14 +40,13 @@ a {
     	function login() {
     		const mem_id = $("#mem_id").val();
     		const mem_pw = $("#mem_pw").val();
-    		location.href = "./login?mem_id="+mem_id+"&mem_pw="+mem_pw;
+    		location.href = "/member/login?mem_id="+mem_id+"&mem_pw="+mem_pw;
     	}
     	function logout() {
     		location.href="./logout.jsp";
     	}
     	// 순서지향적인, 절차지향적인 코딩 -> 모듈화 -> 비동기처럼 처리 하기(연습-await, async)
     	function memberList(){
-    		alert($("#_easyui_textbox_input4").val());
     		let type = null;
     		let keyword = null;
     		if($("#_easyui_textbox_input4").val() != null && $("#_easyui_textbox_input4").val().length > 0){
@@ -65,7 +68,12 @@ a {
 				// 단 List<XXVO>형태라면 그땐 소문자가 맞다
 				method:"get"
 				/* json포맷으로 멤버리스트 data를 전달받아야함 */
-				,url:"/member/memberList?type="+type+"&keyword="+keyword // 응답페이지는 JSON포맷의 파일이어야함(html이아니라)
+				,url:"/member/jsonMemberList?type="+type+"&keyword="+keyword // 응답페이지는 JSON포맷의 파일이어야함(html이아니라)
+				,onSelect: function(index, row){
+					to_id = row.MEM_ID; //데이터그리드 선택시 해당 로우의 아이디 담기
+					to_name = row.MEM_NAME; // 데이터그리드 선택시 해당 로우의 이름 담기
+					console.log(to_id+", "+to_name);
+				}
 				,onDblClickCell: function(index,field,value){
 					//console.log(index+", "+field+", "+value);
 					if("BUTTON" == field){
@@ -83,7 +91,23 @@ a {
     		$("#d_member").hide();
     		$("#d_memberInsert").show();
     	}
-    	
+    	function memoForm(){
+    		console.log("memoForm 호출");
+    		$("#dlg_memo").dialog({
+    			title: "쪽지쓰기",
+    			href:"/memo/memoForm.jsp?to_id="+to_id+"&to_name="+to_name,
+    			modal: true,
+    			closed: true
+    		});
+    		$("#dlg_memo").dialog('open');
+    	}
+    	function memoSend(){
+    		console.log("쪽지보내기");
+    		$("#f_memo").submit();
+    	}
+    	function memoFormClose(){
+    		$("#dlg_memo").dialog('close');
+    	}
     </script>
 </head>
 <body>
@@ -94,6 +118,8 @@ a {
 	$(document).ready(function(){
 		$("#d_member").hide();
 		$("#d_memberInsert").hide();
+		$("mem_id").textbox('setValue','apple');
+		$("mem_pw").textbox('setValue','123');
 	});
 </script>
 	<div style="margin: 20px 0;"></div>
@@ -104,7 +130,7 @@ a {
 			<!-- 여백 줄거임 -->
 			<div style="margin: 10px 0;"></div>
 <%
-	if(s_name == null) {
+	if(smem_name == null) {
 %>
 			<!--####################### 로그인  영역 시작 #######################-->
 			<div id="d_login" align="center">
@@ -140,7 +166,7 @@ a {
 %>
 			<!--####################### 로그아웃 영역 시작 #######################-->
 			<div id="d_logout" align="center">
-				<div id="d_ok"><%= s_name %>님 환영합니다.
+				<div id="d_ok"><%= smem_name %>님 환영합니다.
 				</div>
 				<div style="margin: 3px 0;"></div>
 				<a id="btn_logout" href="javascript:logout()"
@@ -156,6 +182,9 @@ a {
 %>
 			<!--####################### 메뉴 영역 시작 #######################-->
 			<div style="margin: 20px 0;"></div>
+<%
+	if(smem_id != null){
+%>
 			<ul id="tre_gym" class="easyui-tree" style="margin: 0 6px;">
 				<li data-options="state:'closed'"><span>회원관리</span>
 					<ul class="member">
@@ -175,6 +204,9 @@ a {
 						<li><span>Q&A</span></li>
 					</ul></li>
 			</ul>
+<%
+	}
+%>
 		</div>
 		<!--####################### 메뉴 영역  끝 #######################-->
 
@@ -232,7 +264,15 @@ a {
 				<div>회원등록화면 보여주기</div>
 			</div>
 			<!-- [[ 쪽지관리{받은쪽지함, 보낸쪽지함} ]] -->
-
+<!-- [[쪽지쓰기 다이얼로그 화면 시작]] -->
+	<div id="dlg_memo" footer="#btn_memo" class="easyui-dialog"
+		 title="쪽지쓰기" data-options="modal:true,closed:true"
+		 style="width: 600px; height: 400px; padding: 10px">
+		<div id="btn_memo" align="right">
+			<a href="javascript:memoFormClose()" class="easyui-linkbutton" iconCls="icon-clear">닫기</a>
+		</div>
+	</div>
+<!-- [[쪽지쓰기 다이얼로그 화면  끝]] -->
 		</div>
 	</div>
 

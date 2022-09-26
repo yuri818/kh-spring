@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,16 +18,27 @@ public class MemoDao {
 
 	public int memoInsert(Map<String, Object> pMap) {
 		logger.info("다오의 memoInsert 호출 성공: "+pMap);
-		int result = 0; //성공여부 판정
+		int result = 0; 
 		try {
-			sqlSessionTemplate.selectOne("proc_memoinsert", pMap);
-			if(pMap.get("result")!=null) {
-				result = Integer.parseInt(pMap.get("result").toString());
-			}
+			sqlSessionTemplate.update("memoInsert", pMap);
 			logger.info("result: "+result);
 		} catch (DataAccessException e) { 
 			logger.info("Exception : " + e.toString());
 		} 
 		return result;
+	}
+
+	public List<Map<String, Object>> sendMemoList(Map<String, Object> pMap) {
+		logger.info("다오의 sendMemoList 호출 성공: "+pMap);
+		List<Map<String, Object>> sendMemoList = null;
+		sendMemoList = sqlSessionTemplate.selectList("sendMemoList", pMap);
+		return sendMemoList;
+	}
+
+	public List<Map<String, Object>> receiveMemoList(Map<String, Object> pMap) {
+		logger.info("다오의 receiveMemoList 호출 성공: "+pMap);
+		List<Map<String, Object>> receiveMemoList = null;
+		receiveMemoList = sqlSessionTemplate.selectList("receiveMemoList", pMap);
+		return receiveMemoList;
 	}
 }
